@@ -1,0 +1,388 @@
+openapi: 3.0.3
+info:
+  title: Incident Ninja API
+  description: allows the user to raise a incident which will be assigned to a particular department in the support team and the issue will be resolved by that department.
+  version: 1.0.0
+tags:
+  - name: incidents
+    description: Everything about incidents
+  - name: users
+    description: Everything about incidents
+  - name: notification
+    description: Notifies user when Incident is created and assigned
+paths:
+  /notifications:
+    post:
+      tags:
+        - notification
+      summary: Create notifification
+      description: Notifies user when Incident is created and assigned
+      operationId: createnotifification
+      requestBody:
+        description: Created notification object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/notification'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notification'
+               
+  /users:
+    post:
+      tags:
+        - users
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+  /users/login:
+    get:
+      tags:
+        - users
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation      
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+          
+  /users/logout:
+    get:
+      tags:
+        - users
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  /users/{username}:
+    get:
+      tags:
+        - users
+      summary: Get user by user name
+      description: ''
+      operationId: getUserByName
+      parameters:
+        - name: username
+          in: path
+          description: 'The name that needs to be fetched '
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+        
+    put:
+      tags:
+        - users
+      summary: Update user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+        - name: username
+          in: path
+          description: name that need to be deleted
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent user in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+    delete:
+      tags:
+        - users
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+
+  /incidents/:
+    post:
+        tags:
+          - incidents
+        operationId: createincident
+        requestBody:
+          description: Create a new pet in the store
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Incidents'
+        responses:
+          "200":
+            description: Returns all Incidents
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Incidents'
+          "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+    get:
+      tags:
+        - incidents
+      operationId: getallincidents
+      responses:
+        "200":
+          description: Returns all Incidents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidents'
+        "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+    
+  /incidents/{incident_number}:
+    get:
+      tags:
+        - incidents
+      operationId: getincidentbyID
+      parameters:
+        - name: incident_number
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Returns single Incident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidents'
+        "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+    
+    put:
+      tags:
+        - incidents
+      operationId: updateanincident
+      parameters:
+        - name: incident_number
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: update an Incident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidents'
+        "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+    patch:
+      tags:
+        - incidents
+      operationId: updatepartialincident
+      parameters:
+        - name: incident_number
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: update partial Incident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidents'
+        "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+    delete:
+      tags:
+        - incidents
+      operationId: deleteincident
+      parameters:
+        - name: incident_number
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: delete Incident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incidents'
+        "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+components:
+  schemas:
+      Incidents:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Incident number
+            example: 123
+          name:
+            type: string
+            description: Type of incident
+            example: Access
+          desc:
+            type: string
+            description: description of incident
+          status:
+            type: string
+            enum:
+            - Initialized
+            - Inprogress
+            - closed
+      notification:
+        type: object
+        properties:
+          username:
+            type: string
+            example: theUser
+          email:
+            type: string
+            example: john@email.com
+          status:
+            type: string
+            enum:
+            - Initialized
+            - Inprogress
+            - closed    
+      User:
+        type: object
+        properties:
+          username:
+            type: string
+            example: theUser
+          firstName:
+            type: string
+            example: John
+          lastName:
+            type: string
+            example: James
+          email:
+            type: string
+            example: john@email.com
+          password:
+            type: string
+            example: '12345'
+  requestBodies:
+    Incidents:
+      description: Incident object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Incidents'
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+    notification:
+      description: notification object that needs to be sent
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/notification'

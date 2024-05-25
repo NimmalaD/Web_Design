@@ -1,0 +1,19 @@
+{
+  "name": "final-project-group-incident_ninja",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neu-mis-info-6150-spring-2023/final-project-group-incident_ninja.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neu-mis-info-6150-spring-2023/final-project-group-incident_ninja/issues"
+  },
+  "homepage": "https://github.com/neu-mis-info-6150-spring-2023/final-project-group-incident_ninja#readme"
+}
